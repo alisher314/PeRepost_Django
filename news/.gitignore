@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python/
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Django
+db.sqlite3
+*.log
+local_settings.py # Если у вас есть такие файлы
+media/ # Если не хотите загружать загруженные пользователями файлы
+
+# IDE (PyCharm)
+.idea/
+.DS_Store # macOS
