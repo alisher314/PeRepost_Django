@@ -2,9 +2,19 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>PeRepost</title>
+    <title>PeRepost | Главная страница</title>
 </head>
 <body>
-
+<h1>Новости дня</h1>
+{% for p in news %}
+{{ p }}
+<br>
+{% endfor %}
+<hr>
+<h1>Категории</h1>
+{% for c in categories %}
+{{ c }}
+<br>
+{% endfor %}
 </body>
 </html>

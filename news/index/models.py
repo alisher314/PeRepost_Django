@@ -9,6 +9,9 @@ class NewsCategory(models.Model):
     def __str__(self):
         return self.news_category_name
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 
 class News(models.Model):
     news_title = models.CharField(max_length=128)  # Исправлено: max_length
@@ -20,3 +23,6 @@ class News(models.Model):
     # Рекомендуется добавить метод __str__ для лучшего отображения в админке
     def __str__(self):
         return self.news_title
+
+    class Meta:
+        verbose_name_plural = 'News'
