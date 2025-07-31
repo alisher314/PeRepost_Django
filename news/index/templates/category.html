@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>PeRepost | Категории новостей</title>
+</head>
+<body>
+<р1>Новости по категории {{ category }}</р1>
+<hr>
+{% for p in news %}
+<a href="/news/{{ p.id }}">{{ p }}</a>
+<br>
+{% endfor %}
+</body>
+</html>

@@ -1,20 +1,171 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PeRepost | Главная страница</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-<h1>Новости дня</h1>
-{% for p in news %}
-{{ p }}
-<br>
-{% endfor %}
-<hr>
-<h1>Категории</h1>
-{% for c in categories %}
-{{ c }}
-<br>
-{% endfor %}
+<body class="bg-dark text-white">
+
+    <div id="popup-ad" class="popup-ad-overlay">
+        <div class="popup-ad-content bg-dark border p-3 rounded shadow-lg text-center"> {# Added text-center here #}
+            <a href="ссылка_для_рекламы" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'reklama.jpg' %}" alt="Рекламный баннер" class="img-fluid w-100">
+            </a>
+            {# Добавляем элемент для обратного отсчета #}
+            <p id="countdown-timer" class="text-white mt-3 mb-2">Реклама закроется через <span>5</span> секунд...</p>
+            <button id="close-popup-btn" class="btn btn-danger btn-sm mt-3 d-none">Закрыть рекламу</button>
+        </div>
+    </div>
+    <header class="p-3 mb-3 border-bottom bg-dark navbar-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src="{% static 'logo.png' %}" alt="Ваш логотип" width="250" height="32" class="me-2">
+                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 text-white-50">Главная</a></li>
+                    {% for c in categories %}
+                    <a href="/category//{{ c.id }}" class="text-white">
+                        {{ c }}
+                    </a>
+                    <br>
+                    {% endfor %}
+                </ul>
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control form-control-red text-bg-red" placeholder="Поиск новостей..." aria-label="Поиск новостей">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-4">
+        <div class="banner-wrapper ratio-4x1 mb-4">
+            <a href="ссылка_для_рекламы" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'banner.webp' %}" alt="Рекламный баннер" class="img-fluid w-100 h-100 object-fit-cover">
+            </a>
+        </div>
+
+<div class="container px-4 py-5" id="custom-cards">
+  <h2 class="pb-2 border-bottom">Новости дня</h2>
+
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    {% for p in news %}
+      {# Card 1 #}
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzQqWR8CEiOmf4boMJRQynUNTxTfCcmUF2QA&s'); background-size: cover; background-position: center;">
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ p }}</h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="d-flex align-items-center me-3">
+              <small>{{ p.news_category.news_category_name }}</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <small>{{ p.added_date|date:"j E" }}</small> {# Например, "31 Июля" #}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+
+    {# Card 2 #}
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="background-image: url('https://verymuchrussian.com/wp-content/uploads/2011/12/photo_2018-11-14_10-51-42.jpg'); background-size: cover; background-position: center;">
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Эксперты ожидают повышения зарплаты с 1 апреля</h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                width="32"
+                height="32"
+                class="rounded-circle border border-white"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Location">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>Pakistan</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Duration">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>4d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {# Card 3 #}
+    <div class="col">
+      <div
+        class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+        style="background-image: url('https://cdn.upl.uz/posts/2025-01/05387d1c1a_original.jpg');"
+      >
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">В Ташкент вернутся трамваи</h3>
+          <ul class="d-flex list-unstyled mt-auto">
+            <li class="me-auto">
+              <img
+                src="https://github.com/twbs.png"
+                alt="Bootstrap"
+                width="32"
+                height="32"
+                class="rounded-circle border border-white"
+              />
+            </li>
+            <li class="d-flex align-items-center me-3">
+              <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Location">
+                <use xlink:href="#geo-fill"></use>
+              </svg>
+              <small>California</small>
+            </li>
+            <li class="d-flex align-items-center">
+              <svg class="bi me-2" width="1em" height="1em" role="img" aria-label="Duration">
+                <use xlink:href="#calendar3"></use>
+              </svg>
+              <small>5d</small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <h1 class="text-white">Новости дня</h1>
+        {% for p in news %}
+        <a href="/news//{{ p.id }}" class="text-white">{{ p }}</a>
+        <br>
+        {% endfor %}
+        <hr class="border-secondary">
+        <h1 class="text-white">Категории</h1>
+        {% for c in categories %}
+        <a href="/category//{{ c.id }}" class="text-white">{{ c }}</a>
+        <br>
+        {% endfor %}
+
+
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+
 </body>
 </html>

@@ -120,4 +120,12 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+# Опционально: Если у вас есть общие статические файлы для всего проекта,
+# которые не принадлежат конкретным приложениям, раскомментируйте и настройте это:
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static_global'), # Например, создайте папку 'static_global' в корне проекта
+]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
