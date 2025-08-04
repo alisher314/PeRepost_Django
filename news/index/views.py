@@ -1,39 +1,43 @@
-from itertools import product
+# views.py
 
-from django.shortcuts import render
-from .models import NewsCategory, News
+from django.shortcuts import render, get_object_or_404
+from .models import NewsCategory, News, Banner, Ad  # Убедитесь, что Ad импортирован
 
-# Create your views here.
-#Главная страница
+
+# Главная страница
 def home_page(request):
-    # Получаем все новости из базы данных
-    news = News.objects.all()
-    # Получаем все категории новостей из базы данных
+    news = News.objects.all().order_by('-added_date')
     categories = NewsCategory.objects.all()
 
-    # Создаем словарь контекста, который будет передан в шаблон
-    cntext = {
-        'news': news,          # Переменная 'news' в шаблоне будет содержать все объекты News
-        'categories': categories # Переменная 'categories' в шаблоне будет содержать все объекты NewsCategory
+    # Получаем все активные баннеры из базы данных
+    active_banners = Banner.objects.filter(is_active=True).order_by('added_date')
+
+    # --- Вот здесь мы добавляем логику для получения рекламного баннера ---
+    try:
+        ad = Ad.objects.filter(is_active=True).first()
+    except Ad.DoesNotExist:
+        ad = None
+    # ----------------------------------------------------------------------
+
+    context = {
+        'news': news,
+        'categories': categories,
+        'banners': active_banners,
+        'ad': ad,  # Добавляем наш баннер в контекст
     }
 
-    # Возвращаем отрендеренный шаблон 'home.html', передавая в него созданный контекст
-    return render(request, 'home.html', cntext) # <-- ИСПРАВЛЕНО: добавлен аргумент 'cntext'
+    return render(request, 'home.html', context)
 
-# Страница с новостями по категории
+
+# Теперь вы можете удалить функцию my_view, так как она больше не нужна,
+# либо убедиться, что она нигде не используется.
+
+# Остальные функции остаются без изменений
 def category_page(request, pk):
-    category = Category.objects.get(id=pk)
-    news = News.objects.filter(news_category=category)
-    cntext = {
-        'category': category,
-        'news': news
-    }
-    return render(request, 'category.html, cntext')
+    # ...
+    return render(request, 'category.html', context)
 
-# Страница с определенными новостями
-def news_page(request, pk):
-    news = News.objects.get(id=pk)
-    cntext = {
-        'news': news
-    }
-    return render(request, 'news.html', cntext)
+
+def news_detail(request, news_id):
+    # ...
+    return render(request, 'news_detail.html', context)

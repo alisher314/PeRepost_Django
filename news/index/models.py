@@ -26,3 +26,32 @@ class News(models.Model):
 
     class Meta:
         verbose_name_plural = 'News'
+
+
+class Banner(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='banners/')
+    url = models.URLField(max_length=200, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    added_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-added_date']
+
+    def __str__(self):
+        return self.title
+
+
+class Ad(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='ads/')
+    url = models.URLField(max_length=200)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Реклама"
+        verbose_name_plural = "Реклама"

@@ -6,5 +6,5 @@ app_name = 'index' # Рекомендуется: определить app_name �
 urlpatterns = [
     path('', views.home_page),
     path('views.category/<int:pk>', views.category_page),
-    path('news/<int:pk>', views.news_page)
+    path('news/<int:news_id>/', views.news_detail, name='news_detail')
 ]
