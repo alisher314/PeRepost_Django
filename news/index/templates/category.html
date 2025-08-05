@@ -1,16 +1,66 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>PeRepost | Категории новостей</title>
+    <title>PeRepost | {{ category.news_category_name }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-<р1>Новости по категории {{ category }}</р1>
-<hr>
-{% for p in news %}
-<a href="/news/{{ p.id }}">{{ p }}</a>
-<br>
-{% endfor %}
+
+<body class="bg-dark text-white">
+
+<header class="p-3 mb-3 border-bottom bg-dark navbar-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="{% static 'logo.png' %}" alt="Логотип" width="250" height="32" class="me-2">
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <div class="categories d-flex gap-3">
+                    {% for c in categories %}
+                        <a href="{% url 'index:category_page' pk=c.id %}" class="text-white text-decoration-none">
+                            {{ c }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </ul>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control" placeholder="Поиск новостей..." aria-label="Поиск новостей" style="background-color: #505050; color: white;">
+            </form>
+        </div>
+    </div>
+</header>
+
+<main class="container my-4">
+    <h1 class="pb-2 border-bottom">Новости категории: {{ category.news_category_name }}</h1>
+
+    {% if news_list %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 align-items-stretch g-4 py-4">
+        {% for p in news_list %}
+            <div class="col">
+                <a href="{% url 'index:news_detail' news_id=p.id %}" class="text-decoration-none">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+                         style="background-image: url('{{ p.news_photo.url }}'); background-size: cover; background-position: center;">
+                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                            <h4 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ p.news_title }}</h4>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="me-3"><small>{{ p.news_category.news_category_name }}</small></li>
+                                <li><small>{{ p.added_date|date:"j E" }}</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center my-5">
+        <p class="text-muted fs-4">Нет новостей в категории "{{ category.news_category_name }}"</p>
+        <a href="/" class="btn btn-primary btn-lg mt-3">Вернуться ко всем новостям</a>
+    </div>
+    {% endif %}
+</main>
 
 </body>
 </html>

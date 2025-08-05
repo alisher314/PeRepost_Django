@@ -1,7 +1,12 @@
 # views.py
 
-from django.shortcuts import render, get_object_or_404
-from .models import NewsCategory, News, Banner, Ad  # Убедитесь, что Ad импортирован
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import NewsCategory, News, Banner, Ad
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout
+from django.views import View
+from .forms import RegisterForm
+
 
 
 # Главная страница
@@ -34,10 +39,41 @@ def home_page(request):
 
 # Остальные функции остаются без изменений
 def category_page(request, pk):
-    # ...
-    return render(request, 'category.html', context)
+    category = get_object_or_404(NewsCategory, id=pk)
+    news_list = News.objects.filter(news_category=category)
+    return render(request, 'category.html', {
+        'category': category,
+        'news_list': news_list
+    })
 
 
 def news_detail(request, news_id):
-    # ...
+    # Получаем объект новости по ID или возвращаем ошибку 404
+    news = get_object_or_404(News, pk=news_id)
+
+    # --- Создаём словарь 'context' и передаём в него данные ---
+    context = {
+        'news': news,
+    }
+    # --------------------------------------------------------
+
+    # Теперь 'context' определён и может быть передан в шаблон
     return render(request, 'news_detail.html', context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Автоматический вход после регистрации
+            return redirect('index:home')  # Замени на свой URL главной страницы
+    else:
+        form = RegisterForm()
+    return render(request, 'register.html', {'form': form})
+
+
+def custom_logout(request):
+    logout(request)  # очищаем сессию пользователя
+    return redirect('/')  # редиректим на главную страницу
+

@@ -19,11 +19,14 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth import views as auth_views
+from index import views as index_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('index.urls'))
+    path('', include('index.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html', redirect_authenticated_user=True), name='login'),
+    path('logout/', index_views.custom_logout, name='logout'),  # ✅ без next_page
 ]
 
 if settings.DEBUG:
