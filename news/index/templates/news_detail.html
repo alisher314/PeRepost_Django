@@ -16,9 +16,30 @@
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img src="{% static 'logo.png' %}" alt="Ваш логотип" width="250" height="32" class="me-2">
                 </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <div class="categories">
+                        {% for c in categories %}
+                            <a href="{% url 'index:category_page' pk=c.id %}" class="text-white text-decoration-none mx-2">
+                                {{ c }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </ul>
+
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Поиск новостей..." aria-label="Поиск новостей" style="background-color: #505050; color: white;">
+                    <input type="search" class="form-control" placeholder="Поиск новостей..." aria-label="Поиск новостей" style="background-color: #505050; color: white;">
                 </form>
+
+                <!-- 🔑 Блок авторизации -->
+                <div class="text-end">
+                    {% if user.is_authenticated %}
+                        <span class="me-2">Привет, {{ user.username }}!</span>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-light me-2">Выйти</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Войти</a>
+                        <a href="{% url 'index:register' %}" class="btn btn-warning">Регистрация</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>

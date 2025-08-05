@@ -57,13 +57,29 @@
     </header>
 
     <main class="container my-4">
-    <div id="banner-carousel" class="banner-wrapper mb-4 rounded-3 overflow-hidden">
-        {% for banner in banners %}
-        <a href="{{ banner.url }}" target="_blank" rel="noopener noreferrer" class="banner-item {% if forloop.first %} active{% endif %}">
-            <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="img-fluid w-100 h-100 object-fit-cover">
-        </a>
-        {% endfor %}
-    </div>
+        <div id="banner-carousel" class="carousel slide mb-4 rounded-3 overflow-hidden" data-bs-ride="carousel" data-bs-interval="5000" #5000 = 5сек>
+            <div class="carousel-inner">
+                {% for banner in banners %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <a href="{{ banner.url }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="d-block w-100 h-100 object-fit-cover">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Кнопка "Назад" -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+            </button>
+
+            <!-- Кнопка "Вперед" -->
+            <button class="carousel-control-next" type="button" data-bs-target="#banner-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+            </button>
+        </div>
 
         <div class="container px-4 py-5" id="custom-cards">
             <h1 class="pb-2 border-bottom">Новости</h1>

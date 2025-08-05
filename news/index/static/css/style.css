@@ -1,146 +1,78 @@
 /* static/css/style.css */
 
-/* ... (Ваши существующие стили для banner-wrapper и т.д.) ... */
-
+/* --- Popup баннер --- */
 .popup-ad-overlay {
-    position: fixed; /* Фиксированное положение относительно окна просмотра */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон */
-    display: flex; /* Используем flexbox для центрирования содержимого */
-    justify-content: center; /* Центрируем по горизонтали */
-    align-items: center; /* Центрируем по вертикали */
-    z-index: 1050; /* Достаточно высокий z-index, чтобы быть поверх всего (выше Bootstrap модалей) */
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Плавное исчезновение */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .popup-ad-overlay.hidden {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* Отключаем события мыши, когда баннер скрыт */
+    pointer-events: none;
 }
 
 .popup-ad-content {
-    max-width: 600px; /* Максимальная ширина баннера */
-    width: 90%; /* Адаптивность для меньших экранов */
+    max-width: 600px;
+    width: 90%;
     text-align: center;
-    position: relative; /* Для позиционирования кнопки закрытия, если она будет внутри */
+    position: relative;
 }
 
-
+/* --- Баннер (carousel) --- */
 #banner-carousel {
     position: relative;
     width: 100%;
-    height: 25vw; /* Или height: 50vw для мобильных */
-    overflow: hidden; /* Важно: скрывает баннеры, которые "выезжают" за пределы контейнера */
-}
-
-#banner-carousel {
-    position: relative;
-    width: 100%;
-    height: 25vw;
+    aspect-ratio: 4 / 1; /* Соотношение сторон по умолчанию */
     overflow: hidden;
 }
 
-.banner-item {
-    position: absolute;
-    top: 0;
-    left: 0;
+#banner-carousel .carousel-item img {
     width: 100%;
     height: 100%;
-    transform: translateX(100%); /* Баннер изначально справа */
-    transition: transform 0.5s ease-in-out;
-    z-index: 1;
+    object-fit: cover; /* Заполняет контейнер, обрезая лишнее */
+    border-radius: 8px;
 }
 
-.banner-item.active {
-    transform: translateX(0); /* Активный баннер в центре */
-    z-index: 2;
-}
-
-.banner-item.prev {
-    transform: translateX(-100%); /* Баннер уходит влево */
-}
-
-/* Новый класс, который будет смещать баннер вправо */
-.banner-item.out-right {
-    transform: translateX(100%);
-}
-
-/* Медиазапрос: для экранов шириной до 768px */
-@media (max-width: 768px) {
-    .card-cover {
-        /* Уменьшаем высоту на 50% */
-        height: 50%; /* Вы можете настроить это значение */
-    }
-}
-
-/* Медиазапрос: для экранов шириной до 576px (самые маленькие мобильные) */
-@media (max-width: 576px) {
-    .card-cover {
-        /* Уменьшаем высоту ещё больше */
-        height: 25%; /* Или другое значение, например 40% */
-    }
-}
-
-
-#banner-carousel {
-    position: relative;
-    width: 100%;
-    /* Высота для больших экранов (соотношение 4x1) */
-    height: 25vw;
-}
-
-/* Медиазапрос для экранов шириной до 768px (мобильные и планшеты) */
+/* Для мобильных устройств (пропорция меняется) */
 @media (max-width: 768px) {
     #banner-carousel {
-        /* Высота для маленьких экранов (соотношение 2x1) */
-        height: 50vw;
+        aspect-ratio: 2 / 1;
     }
 }
 
-.banner-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0; /* Делает баннер невидимым */
-    transition: opacity 1s ease-in-out; /* Плавный эффект смены */
-    z-index: 1; /* Неактивные баннеры на нижнем слое */
-}
-
-.banner-item.active {
-    opacity: 1; /* Делает баннер видимым */
-    z-index: 2; /* Активный баннер на верхнем слое */
-}
-
-/* Стиль по умолчанию для больших экранов */
+/* --- Карточки новостей --- */
 .card-cover {
-    height: 300px; /* Например, высота 300px для больших экранов */
+    height: 300px;
 }
 
-/* Медиазапрос для экранов шириной до 768px (планшеты) */
 @media (max-width: 768px) {
     .card-cover {
-        height: 250px; /* Уменьшаем высоту для планшетов */
+        height: 250px;
     }
 }
 
-/* Медиазапрос для экранов шириной до 576px (мобильные телефоны) */
 @media (max-width: 576px) {
     .card-cover {
-        height: 200px; /* Уменьшаем высоту для мобильных */
+        height: 200px;
     }
 }
 
+/* --- Категории --- */
 .categories {
     display: flex;
-    gap: 15px; /* расстояние между категориями */
+    gap: 15px;
     align-items: center;
 }
 
@@ -151,4 +83,12 @@
 
 .category-link:hover {
     text-decoration: underline;
+}
+
+/* --- Стрелки для карусели --- */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
 }

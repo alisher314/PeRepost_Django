@@ -41,14 +41,17 @@ def home_page(request):
 def category_page(request, pk):
     category = get_object_or_404(NewsCategory, id=pk)
     news_list = News.objects.filter(news_category=category)
+    categories = NewsCategory.objects.all()  # ✅ Добавлено
     return render(request, 'category.html', {
         'category': category,
-        'news_list': news_list
+        'news_list': news_list,
+        'categories': categories
     })
 
 
 def news_detail(request, news_id):
     news = get_object_or_404(News, pk=news_id)
+    categories = NewsCategory.objects.all()  # ✅ Добавлено
     comments = news.comments.all().order_by('-created_at')
 
     if request.method == 'POST':
@@ -67,6 +70,7 @@ def news_detail(request, news_id):
 
     context = {
         'news': news,
+        'categories': categories,
         'comments': comments,
         'form': form,
     }
