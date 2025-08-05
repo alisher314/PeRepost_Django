@@ -5,7 +5,7 @@ from .models import NewsCategory, News, Banner, Ad
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .forms import RegisterForm
+from .forms import RegisterForm, CommentForm
 
 
 
@@ -48,18 +48,29 @@ def category_page(request, pk):
 
 
 def news_detail(request, news_id):
-    # Получаем объект новости по ID или возвращаем ошибку 404
     news = get_object_or_404(News, pk=news_id)
+    comments = news.comments.all().order_by('-created_at')
 
-    # --- Создаём словарь 'context' и передаём в него данные ---
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.news = news
+                comment.author = request.user
+                comment.save()
+                return redirect('index:news_detail', news_id=news.id)
+        else:
+            return redirect('login')  # Перенаправляем на логин, если не авторизован
+    else:
+        form = CommentForm()
+
     context = {
         'news': news,
+        'comments': comments,
+        'form': form,
     }
-    # --------------------------------------------------------
-
-    # Теперь 'context' определён и может быть передан в шаблон
     return render(request, 'news_detail.html', context)
-
 
 def register(request):
     if request.method == 'POST':
