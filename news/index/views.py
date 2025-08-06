@@ -5,9 +5,12 @@ from .models import NewsCategory, News, Banner, Ad
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.views import View
-from .forms import RegisterForm, CommentForm
-
-
+from .forms import RegisterForm, CommentForm, NewsForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 
 # Главная страница
 def home_page(request):
@@ -92,3 +95,14 @@ def custom_logout(request):
     logout(request)  # очищаем сессию пользователя
     return redirect('/')  # редиректим на главную страницу
 
+
+# Проверка: только админ
+def is_admin(user):
+    return user.is_superuser  # Можно заменить на user.is_staff, если нужно
+
+@method_decorator(user_passes_test(is_admin), name='dispatch')
+class NewsCreateView(CreateView):
+    model = News
+    form_class = NewsForm
+    template_name = 'add_news.html'
+    success_url = reverse_lazy('index:home')  # После добавления новости возвращаемся на главную

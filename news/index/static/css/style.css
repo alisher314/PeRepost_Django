@@ -92,3 +92,37 @@
     border-radius: 50%;
     padding: 10px;
 }
+
+/* Стили для комментариев */
+/* Секция комментариев */
+.comments-section {
+    max-width: 900px; /* ограничиваем ширину */
+    margin: 0 auto;   /* центрируем */
+    margin-top: 30px;
+}
+
+/* Комментарии */
+.comment {
+    background-color: #2c2f33;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    width: 100%; /* чтобы занимали всю доступную ширину внутри контейнера */
+}
+
+.comment strong {
+    color: #ff4c4c;
+    font-weight: bold;
+}
+
+.comment small {
+    display: block;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    font-size: 16px;
+    line-height: 1.4;
+}

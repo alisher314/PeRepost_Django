@@ -36,7 +36,12 @@
                             </a>
                         {% endfor %}
                     </div>
+
+                    {% if user.is_superuser %}
+                        <a href="{% url 'index:add_news' %}" class="btn btn-warning ms-2">Добавить новость</a>
+                    {% endif %}
                 </ul>
+
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" class="form-control" placeholder="Поиск новостей..." aria-label="Поиск новостей" style="background-color: #505050; color: white;">
