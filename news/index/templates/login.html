@@ -1,5 +1,6 @@
 {% load static %}
 {% load widget_tweaks %}
+{% load socialaccount %} <!-- ✅ Для работы тега provider_login_url -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -39,6 +40,14 @@
                 </div>
                 <button type="submit" class="btn btn-light w-100">Войти</button>
             </form>
+
+            <!-- ✅ Кнопка входа через Google -->
+            <div class="text-center my-3">
+                <a href="{% provider_login_url 'google' %}" class="btn btn-light w-100 d-flex align-items-center justify-content-center gap-2" style="background-color: #fff; color: #555; border: 1px solid #ddd;">
+                    <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width="20" height="20">
+                    Войти через Google
+                </a>
+            </div>
 
             <p class="text-center mt-3">
                 Нет аккаунта? <a href="{% url 'index:register' %}" class="text-info">Зарегистрироваться</a>

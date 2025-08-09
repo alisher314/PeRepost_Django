@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('index.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='login.html', redirect_authenticated_user=True), name='login'),
-    path('logout/', index_views.custom_logout, name='logout'),  # ✅ без next_page
+    path('logout/', index_views.custom_logout, name='logout'),  # ✅ без next_page,
+    path('accounts/', include('allauth.urls'))
 ]
 
 if settings.DEBUG:
